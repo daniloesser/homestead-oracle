@@ -11,7 +11,7 @@ class Homestead
 
     # Configure The Box
     config.vm.box = settings["box"] ||= "laravel/homestead"
-    config.vm.box_version = "~> 0.3"
+    config.vm.box_version = "= 0.3.3"
     config.vm.hostname = settings["hostname"] ||= "homestead"
 
     # Configure A Private Network IP
@@ -56,7 +56,7 @@ class Homestead
     config.vbguest.auto_update = false
 
     # set date/time
-    config.vm.provision :shell, :inline => "echo \"America/New_York\" | sudo tee /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata"
+    config.vm.provision :shell, :inline => "echo \"America/Sao_Paulo\" | sudo tee /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata"
 
     # install puppet for oracle installation
     config.vm.provision :shell, :inline => "apt-get -y install puppet"
@@ -151,6 +151,10 @@ class Homestead
         type = "symfony2"
       end
 
+      if (type == "zf1")
+        type = "zf1"
+      end
+
       config.vm.provision "shell" do |s|
         s.path = scriptDir + "/serve-#{type}.sh"
         s.args = [site["map"], site["to"], site["port"] ||= "80", site["ssl"] ||= "443"]
@@ -199,7 +203,7 @@ class Homestead
     if settings.has_key?("variables")
       settings["variables"].each do |var|
         config.vm.provision "shell" do |s|
-          s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php5/fpm/php-fpm.conf"
+          s.inline = "echo \"\nenv[$1] = '$2'\" >>  /etc/php5/fpm/php-fpm.conf"
           s.args = [var["key"], var["value"]]
         end
 

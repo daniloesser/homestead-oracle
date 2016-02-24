@@ -10,12 +10,13 @@ keys:
     - ~/.ssh/id_rsa
 
 folders:
-    - map: ~/Code
+    - map: F:\Zend\Apache2\htdocs
       to: /home/vagrant/Code
 
 sites:
     - map: homestead.app
-      to: /home/vagrant/Code/Laravel/public
+      to: /home/vagrant/Code/hemovida-hmg/public
+      type: zf1
 
 databases:
     - homestead
